@@ -35,8 +35,8 @@ operation_t g_operation;
 static uuid_t g_uuid;
 long int value_data;
 
-static void usage(char *argv[]) {
-	fprintf(stderr,"%s <device_address> <uuid>\n", argv[0]);
+static void usage(char *name) {
+	fprintf(stderr,"Usage: %s <device_address> <uuid>\n", name);
 }
 
 int main(int argc, char *argv[]) {
@@ -46,12 +46,12 @@ int main(int argc, char *argv[]) {
 	gatt_connection_t* connection;
 
 	if (argc != 3) {
-		usage(argv);
+		usage(argv[0]);
 		return 1;
 	}
 
 	if (gattlib_string_to_uuid(argv[2], strlen(argv[2]) + 1, &g_uuid) < 0) {
-		usage(argv);
+		usage(argv[0]);
 		return 2;
 	}
 
@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 
         if (ret == 0) if (strncmp((char*)lastBuffer, (char*)buffer, sizeof(buffer))) {
             printf("%s\n", buffer);
+            fflush(stdout);
             memcpy(lastBuffer, buffer, sizeof(buffer));
         }
     } while (ret == 0);
