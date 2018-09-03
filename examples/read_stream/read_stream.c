@@ -74,6 +74,8 @@ int main(int argc, char *argv[]) {
             fflush(stdout);
             memcpy(lastBuffer, buffer, sizeof(buffer));
         }
+
+        /// @todo If the connection has dropped, try to reconnect once a second.
     } while (ret == 0);
 
 	gattlib_disconnect(connection);
